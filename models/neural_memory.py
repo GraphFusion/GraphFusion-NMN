@@ -1,3 +1,8 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from core.memory_cell import MemoryCell
+from core.knowledge_graph import KnowledgeGraph
 from typing import Dict, List, Optional
 import torch
 
@@ -97,8 +102,8 @@ class NeuralMemoryNetwork:
     @staticmethod
     def _generate_cell_id(input_data: torch.Tensor) -> str:
         """Generate unique cell ID based on input characteristics"""
-        # This is a simple implementation - customize based on your needs
-        return f"cell_{hash(tuple(input_data.tolist()))}"
+        # Convert input_data to a hashable tuple
+        return f"cell_{hash(tuple(input_data.cpu().detach().numpy().flatten()))}"
     
     @staticmethod
     def _update_global_memory(current: torch.Tensor,

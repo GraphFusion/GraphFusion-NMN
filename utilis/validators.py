@@ -23,3 +23,4 @@ def validate_edge_data(edge_data: Dict[str, Any]) -> bool:
     
     # Add additional validation rules as needed
     return True
+
