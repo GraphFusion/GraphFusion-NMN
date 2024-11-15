@@ -10,14 +10,10 @@ class MemoryCell(nn.Module):
         super().__init__()
         self.hidden_size = hidden_size
         
-        # Memory processing components
         self.input_projection = nn.Linear(input_size, hidden_size)
         self.memory_processor = nn.LSTM(hidden_size, hidden_size, batch_first=True)
-        
-        # Attention mechanism
         self.attention = nn.MultiheadAttention(hidden_size, num_heads)
         
-        # Confidence scoring
         self.confidence_scorer = nn.Sequential(
             nn.Linear(hidden_size, hidden_size // 2),
             nn.ReLU(),
@@ -29,30 +25,26 @@ class MemoryCell(nn.Module):
                 input_data: torch.Tensor, 
                 prev_memory: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor, float]:
         """Process input and update memory."""
-        # Project input to hidden size
         projected_input = self.input_projection(input_data)
 
         # Ensure the input shape is (batch_size, seq_len, hidden_size)
-        batch_size = projected_input.size(0)  
+        batch_size = projected_input.size(0)  # Get the batch size
         
-        # Process through LSTM
-        # Initialize hidden and cell states
-        hidden = prev_memory.unsqueeze(0) if prev_memory.dim() == 2 else torch.zeros(1, batch_size, self.hidden_size).to(input_data.device)
-        cell = prev_memory.unsqueeze(0) if prev_memory.dim() == 2 else torch.zeros(1, batch_size, self.hidden_size).to(input_data.device)
+        # Corrected hidden and cell state initialization
+        hidden = torch.zeros(1, batch_size, self.hidden_size, device=input_data.device)
+        cell = torch.zeros(1, batch_size, self.hidden_size, device=input_data.device)
 
         memory_output, (hidden, cell) = self.memory_processor(
-            projected_input.unsqueeze(1),  # Add sequence dimension: (batch_size, 1, hidden_size)
-            (hidden, cell)  # Hidden and cell states with shape (num_layers, batch_size, hidden_size)
+            projected_input.unsqueeze(1),
+            (hidden, cell)
         )
         
-        # Apply attention
         attended_memory, _ = self.attention(
             memory_output,
             memory_output,
             memory_output
         )
         
-        # Calculate confidence
         confidence = self.confidence_scorer(attended_memory.squeeze(1))
         # Ensure the confidence tensor is a scalar before calling .item()
         if confidence.numel() == 1:  
