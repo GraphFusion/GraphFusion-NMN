@@ -10,12 +10,12 @@ with open("RELEASE_NOTES.md", "r", encoding="utf-8") as fh:
 setup(
     name="graphfusion",
     version="0.1.0",
-    author="Your Name or Organization",
-    author_email="your_email@example.com",
+    author="GraphFusion",
+    author_email="Korir@GraphFusion.onmicrosoft.com",
     description="GraphFusion: A Neural Memory Network and Knowledge Graph SDK",
     long_description=f"{long_description}\n\n## Release Notes\n\n{release_notes}",
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/graphfusion",  # Replace with actual URL
+    url="https://github.com/GraphFusion/graphfusion",  
     packages=find_packages(),
     classifiers=[
         "Development Status :: 3 - Alpha",
