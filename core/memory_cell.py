@@ -33,7 +33,7 @@ class MemoryCell(nn.Module):
         projected_input = self.input_projection(input_data)
 
         # Ensure the input shape is (batch_size, seq_len, hidden_size)
-        batch_size = projected_input.size(0)  # Get the batch size
+        batch_size = projected_input.size(0)  
         
         # Process through LSTM
         # Initialize hidden and cell states
@@ -54,8 +54,13 @@ class MemoryCell(nn.Module):
         
         # Calculate confidence
         confidence = self.confidence_scorer(attended_memory.squeeze(1))
-        
-        return attended_memory.squeeze(1), hidden.squeeze(0), confidence.item()
+        # Ensure the confidence tensor is a scalar before calling .item()
+        if confidence.numel() == 1:  
+            confidence_value = confidence.item()
+        else:
+            confidence_value = confidence.mean().item()
+
+        return attended_memory.squeeze(1), hidden.squeeze(0), confidence_value
 
 def validate_node_data(node_data: Dict) -> bool:
     """Validate node data for the knowledge graph."""
