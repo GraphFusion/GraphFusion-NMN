@@ -1,26 +1,29 @@
-from sdk.graphfusion import GraphFusion
 import torch
+from sdk.graphfusion import GraphFusion  # Assuming your SDK is installed as `graphfusion` package
 
-# Initialize GraphFusion
-fusion = GraphFusion(input_size=128, hidden_size=256, confidence_threshold=0.8)
+def main():
+    # Initialize the GraphFusion SDK
+    fusion = GraphFusion(input_size=64, hidden_size=128)
 
-# Process some data
-input_data = torch.randn(128)  # Random input data
-context = {"source": "example_data", "description": "Randomly generated input"}
+    # Input data and context
+    input_data = torch.randn(1, 64)
+    context = {
+        'timestamp': '2023-04-25T12:34:56',
+        'source': 'user_input'
+    }
 
-result = fusion.process(input_data, context)
-print(f"Processed Result:\nOutput: {result['output']}\nConfidence: {result['confidence']}\nCell ID: {result['cell_id']}")
+    # Process the input through the network
+    result = fusion.process(input_data, context)
+    print("Processing Result:", result)
 
-# Query the graph
-query_vector = torch.randn(128)  # Random query vector
-query_results = fusion.query(query_vector, top_k=3)
+    # Query for similar items
+    query = torch.randn(1, 64)
+    similar_items = fusion.query(query, top_k=3)
+    print("Similar Items:", similar_items)
 
-print("\nQuery Results:")
-for idx, res in enumerate(query_results, start=1):
-    print(f"{idx}. Node ID: {res['node_id']} | Similarity: {res['similarity']:.4f} | Confidence: {res['confidence']:.4f}")
+    # Export the knowledge graph
+    graph_data = fusion.export_graph('json')
+    print("Knowledge Graph:", graph_data)
 
-# Export the graph
-exported_graph = fusion.export_graph(format='json')
-with open("knowledge_graph.json", "w") as file:
-    file.write(exported_graph)
-print("\nKnowledge graph has been exported to 'knowledge_graph.json'.")
+if __name__ == "__main__":
+    main()
