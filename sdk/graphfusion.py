@@ -1,90 +1,125 @@
+import torch
 from core.memory_cell import MemoryCell
 from core.knowledge_graph import KnowledgeGraph
-from models.neural_memory import NeuralMemoryNetwork
-import torch
 from typing import Dict, List, Optional
-
 
 class GraphFusion:
     """
-    High-level API for GraphFusion, enabling easy access to the neural memory network
-    and knowledge graph functionalities.
+    GraphFusion SDK: Combines Neural Memory Network and Knowledge Graph.
     """
-    def __init__(self, input_size: int, hidden_size: int, confidence_threshold: float = 0.8):
+    def __init__(self, 
+                 input_size: int, 
+                 hidden_size: int,
+                 confidence_threshold: float = 0.8):
+        self.input_size = input_size
+        self.hidden_size = hidden_size
+        self.confidence_threshold = confidence_threshold
+
+        # Initialize components
+        self.memory_cells: Dict[str, MemoryCell] = {}
+        self.knowledge_graph = KnowledgeGraph()
+        self.global_memory = torch.zeros(hidden_size)
+    
+    def process(self, 
+                input_data: torch.Tensor,
+                context: Optional[Dict] = None) -> Dict:
         """
-        Initialize GraphFusion with neural memory network and knowledge graph.
+        Process input data and update the network.
 
         Args:
-            input_size (int): Dimensionality of the input data.
-            hidden_size (int): Size of the hidden layer in the memory network.
-            confidence_threshold (float): Minimum confidence score to update the knowledge graph.
-        """
-        self.network = NeuralMemoryNetwork(input_size, hidden_size, confidence_threshold)
-
-    def process_input(self, input_data: torch.Tensor, context: Optional[Dict] = None) -> Dict:
-        """
-        Process input through the neural memory network.
-
-        Args:
-            input_data (torch.Tensor): Input tensor to process.
-            context (Optional[Dict]): Additional metadata or context.
+            input_data (torch.Tensor): Input tensor for processing.
+            context (Dict, optional): Metadata or additional context.
 
         Returns:
-            Dict: Output from the memory cell, including processed output, confidence, and cell ID.
+            Dict: Output features, confidence score, and cell ID.
         """
-        return self.network.process(input_data, context)
-
-    def query(self, query_vector: torch.Tensor, top_k: int = 5, min_confidence: float = 0.0) -> List[Dict]:
+        cell_id = self._generate_cell_id(input_data)
+        
+        if cell_id not in self.memory_cells:
+            self.memory_cells[cell_id] = MemoryCell(
+                self.input_size,
+                self.hidden_size
+            )
+        
+        output, new_memory, confidence = self.memory_cells[cell_id](
+            input_data,
+            self.global_memory
+        )
+        
+        if confidence >= self.confidence_threshold:
+            self.knowledge_graph.add_node(
+                cell_id,
+                output,
+                context or {},
+                confidence
+            )
+            self.global_memory = self._update_global_memory(
+                self.global_memory,
+                new_memory,
+                confidence
+            )
+        
+        return {
+            'output': output.detach().numpy(),
+            'confidence': confidence,
+            'cell_id': cell_id
+        }
+    
+    def query(self, 
+              query_vector: torch.Tensor,
+              top_k: int = 5,
+              min_confidence: float = 0.0) -> List[Dict]:
         """
-        Query the knowledge graph for information similar to the query vector.
+        Query the knowledge graph for similar nodes.
 
         Args:
-            query_vector (torch.Tensor): Query vector to match against stored knowledge.
-            top_k (int): Number of top results to return.
-            min_confidence (float): Minimum confidence for nodes to be considered.
+            query_vector (torch.Tensor): Query vector to search.
+            top_k (int): Number of results to return.
+            min_confidence (float): Minimum confidence to consider.
 
         Returns:
-            List[Dict]: List of matched nodes, each containing similarity, confidence, and metadata.
+            List[Dict]: List of matching nodes with similarity and metadata.
         """
-        return self.network.query(query_vector, top_k, min_confidence)
+        results = []
+        
+        for node_id, node_data in self.knowledge_graph.graph.nodes(data=True):
+            if node_data['confidence'] >= min_confidence:
+                similarity = torch.cosine_similarity(
+                    query_vector.unsqueeze(0),
+                    torch.tensor(node_data['features']).unsqueeze(0)
+                )
+                
+                results.append({
+                    'node_id': node_id,
+                    'similarity': similarity.item(),
+                    'confidence': node_data['confidence'],
+                    'metadata': node_data['metadata']
+                })
+        
+        results.sort(key=lambda x: x['similarity'] * x['confidence'], reverse=True)
+        return results[:top_k]
+    
+    def export_graph(self, format: str = 'json') -> str:
+        """
+        Export the knowledge graph.
 
-    def get_graph(self) -> KnowledgeGraph:
-        """
-        Access the underlying knowledge graph.
+        Args:
+            format (str): Export format (default is 'json').
 
         Returns:
-            KnowledgeGraph: The knowledge graph object for direct graph manipulations.
+            str: Serialized graph data.
         """
-        return self.network.knowledge_graph
-
-    def add_custom_node(self, 
-                        node_id: str, 
-                        features: torch.Tensor, 
-                        metadata: Dict, 
-                        confidence: float) -> None:
-        """
-        Add a custom node to the knowledge graph.
-
-        Args:
-            node_id (str): Unique ID for the node.
-            features (torch.Tensor): Feature vector for the node.
-            metadata (Dict): Metadata dictionary.
-            confidence (float): Confidence score for the node.
-        """
-        self.network.knowledge_graph.add_node(node_id, features, metadata, confidence)
-
-    def add_custom_edge(self, 
-                        source_id: str, 
-                        target_id: str, 
-                        relationship_type: str, 
-                        confidence: float) -> None:
-        """
-        Add a custom edge to the knowledge graph.
-
-        Args:
-            source_id (str): ID of the source node.
-            target_id (str): ID of the target node.
-            relationship_type (str): Type of the relationship.
-            confidence (float): Confidence score for the edge.
-        """
-        self.network.knowledge_graph.add_edge(source_id, target_id, relationship_type, confidence)
+        return self.knowledge_graph.export(format=format)
+    
+    @staticmethod
+    def _generate_cell_id(input_data: torch.Tensor) -> str:
+        """Generate a unique cell ID."""
+        return f"cell_{hash(tuple(input_data.cpu().detach().numpy().flatten()))}"
+    
+    @staticmethod
+    def _update_global_memory(current: torch.Tensor,
+                              new: torch.Tensor,
+                              confidence: float,
+                              decay: float = 0.99) -> torch.Tensor:
+        """Update global memory with decay."""
+        return current * decay + new * confidence * (1 - decay)
