@@ -1,6 +1,6 @@
 
 # GraphFusion Neural Memory Network
-Developer Documentation v1.0
+Developer Documentation v0.1.0
 
 ## Table of Contents
 1. [Introduction](#introduction)
