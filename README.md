@@ -1,129 +1,164 @@
-# **GraphFusion**
 
-**GraphFusion** is an AI-driven platform designed to revolutionize how data is stored, retrieved, and utilized. By combining **neural memory networks** and **knowledge graphs**, GraphFusion provides a unified, persistent, and queryable memory system capable of real-time learning, context-aware recommendations, and intelligent data organization.
+# GraphFusion
 
----
+**GraphFusion** is an AI-powered platform that seamlessly integrates **Neural Memory Networks** with **Knowledge Graphs** to provide real-time, context-aware insights across various sectors. This platform combines the power of deep learning models and graph-based representations to enable personalized recommendations, data-driven decisions, and adaptive learning systems. 
 
-## **Key Features**
-1. **Neural Memory Networks**:
-   - **Embedding-Based Memory Management**: Encodes data into embeddings for efficient storage and retrieval.
-   - **Confidence Scoring**: Evaluates the reliability of stored information in real-time.
+### Key Features
+- **Neural Memory Networks**: Real-time adaptable memory management using neural networks to store and process data.
+- **Knowledge Graph Integration**: A graph-based structure that enables the organization of data relationships and semantic understanding.
+- **Use Cases Across Sectors**:
+  - **Healthcare**: Patient data analysis and medical history tracking.
+  - **Finance**: Transaction processing and fraud detection.
+  - **Education**: Student performance analysis and peer learning recommendations.
 
-2. **Knowledge Graph Integration**:
-   - **Structured Data Relationships**: Organizes data as interconnected nodes and edges for better representation.
-   - **Semantic Understanding**: Enhances contextual comprehension by inferring relationships.
+### Installation
 
-3. **Real-Time Adaptability**:
-   - **Continuous Learning**: Dynamically updates memory with new data.
-   - **Error Detection and Correction**: Maintains high data integrity by identifying and fixing inconsistencies.
+To get started with GraphFusion, follow the steps below to install the platform and its dependencies.
 
-4. **Modular Design**:
-   - Works as a standalone library.
-   - Easily integrates into various applications, such as intelligent assistants, healthcare systems, or educational tools.
-
----
-
-## **Installation**
-
-Install GraphFusion using `pip`:
+#### 1. Clone the Repository
 
 ```bash
-pip install graphfusion
+git clone https://github.com/your-username/graphfusion.git
+cd graphfusion
 ```
 
----
+#### 2. Set Up a Virtual Environment
 
-## **Quick Start**
+It’s recommended to use a virtual environment for this project to manage dependencies.
 
-Here’s how you can start using GraphFusion in your project:
-
-### **1. Initialize GraphFusion**
-```python
-from graphfusion.sdk import GraphFusion
-
-# Create a GraphFusion instance
-fusion = GraphFusion(input_size=128, hidden_size=256, confidence_threshold=0.8)
+```bash
+python -m venv venv
+source venv/bin/activate  # For Linux/macOS
+venv\Scripts\activate     # For Windows
 ```
 
-### **2. Process Input Data**
-```python
-import torch
+#### 3. Install Dependencies
 
-# Example input data
-input_data = torch.rand(128)  # A random input vector
-context = {"source": "sensor_1", "timestamp": "2024-11-15"}
+To install the dependencies, run:
 
-# Process input through GraphFusion
-result = fusion.process_input(input_data, context)
-print(result)
+```bash
+pip install -r requirements.txt
 ```
 
-### **3. Query the Network**
-```python
-# Example query vector
-query_vector = torch.rand(128)
+#### 4. Install in Editable Mode (for Developers)
 
-# Query the memory network for similar information
-results = fusion.query(query_vector, top_k=3)
-print(results)
+To make changes to the project and run examples directly, you can install the package in editable mode. This allows you to modify the code and instantly reflect changes without needing to reinstall the package.
+
+```bash
+pip install -e .
 ```
 
-### **4. Access the Knowledge Graph**
-```python
-# Access the underlying knowledge graph
-graph = fusion.get_graph()
-print(graph.graph.nodes(data=True))  # Print all nodes in the graph
+### Usage
+
+Once the dependencies are installed, you can start using **GraphFusion** to process data for various use cases.
+
+#### Example 1: Healthcare Use Case
+
+In this example, we will process patient data and track medical history to identify similar patients based on input data.
+
+```bash
+python health_example.py
 ```
 
----
+**Example Output**:
+```json
+Patient Processing Result: {
+  "output": "tensor([...])",
+  "confidence": 0.5272803902626038,
+  "cell_id": "cell_3032974462495650720"
+}
 
-## **API Overview**
+Similar Patients Based on Medical History: []
 
-### **GraphFusion Class**
-#### `GraphFusion(input_size: int, hidden_size: int, confidence_threshold: float = 0.8)`
-- **Parameters**:
-  - `input_size` (int): Dimension of the input vector.
-  - `hidden_size` (int): Dimension of the hidden layer.
-  - `confidence_threshold` (float): Minimum confidence required to update the knowledge graph.
+Patient Knowledge Graph: {
+  "directed": true,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [],
+  "edges": []
+}
+```
 
-#### `process_input(input_data: torch.Tensor, context: Optional[Dict]) -> Dict`
-Processes input data and updates the memory network.
+#### Example 2: Finance Use Case
 
-#### `query(query_vector: torch.Tensor, top_k: int = 5, min_confidence: float = 0.0) -> List[Dict]`
-Retrieves similar data from the memory network based on the query vector.
+In this example, we will process financial transaction data to detect potential fraud.
 
-#### `get_graph() -> KnowledgeGraph`
-Returns the underlying knowledge graph.
+```bash
+python finance_example.py
+```
 
----
+**Example Output**:
+```json
+Transaction Processing Result: {
+  "output": "tensor([...])",
+  "confidence": 0.5279827117919922,
+  "cell_id": "cell_6645951537542080384"
+}
 
-## **Use Cases**
-- **Healthcare**: Organizing and retrieving patient data for context-aware diagnostics.
-- **Finance**: Detecting fraud by mapping transactional relationships.
-- **Education**: Building adaptive learning systems based on user interactions.
-- **Intelligent Assistants**: Context-aware conversation systems with memory and reasoning capabilities.
+Similar Transactions (Potential Fraud): []
 
----
+Transaction Knowledge Graph: {
+  "directed": true,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [],
+  "edges": []
+}
+```
 
-## **Development and Contribution**
-We welcome contributions to improve GraphFusion! To contribute:
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/graphfusion.git
-   ```
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Run tests:
-   ```bash
-   pytest
-   ```
+#### Example 3: Education Use Case
 
-Feel free to submit pull requests or raise issues for bugs and feature requests.
+In this example, we will process student data to recommend potential peers for collaborative learning.
 
+```bash
+python education_example.py
+```
 
+**Example Output**:
+```json
+Student Processing Result: {
+  "output": "tensor([...])",
+  "confidence": 0.5271280407905579,
+  "cell_id": "cell_-5565247167439004772"
+}
 
-## **Acknowledgments**
-Special thanks to the developers and contributors who made this project possible.
+Similar Students for Peer Learning: []
+
+Student Knowledge Graph: {
+  "directed": true,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [],
+  "edges": []
+}
+```
+
+### Architecture
+
+- **MemoryCell**: A neural network model that processes input data and updates memory.
+- **KnowledgeGraph**: Adds nodes and edges to the graph, allowing the organization of data relationships.
+- **NeuralMemoryNetwork**: Provides context-aware recommendations by analyzing input data and context.
+
+### Key Models & Classes
+- **MemoryCell**: Handles input data, updates memory states, and outputs results.
+- **KnowledgeGraph**: Adds nodes and edges to the graph and allows querying of related information.
+- **NeuralMemoryNetwork**: Provides personalized recommendations by analyzing input data and context.
+
+### Contribution Guidelines
+
+GraphFusion is an open-source project, and contributions are welcome! To contribute:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-name`).
+3. Commit your changes (`git commit -am 'Add new feature'`).
+4. Push to your branch (`git push origin feature-name`).
+5. Create a pull request.
+
+### Community
+
+We encourage collaboration and contributions from the community. If you encounter any issues or have suggestions, feel free to open an issue or start a discussion.
+
+### License
+
+GraphFusion is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
