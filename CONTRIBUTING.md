@@ -105,6 +105,11 @@ Please follow these guidelines to maintain the quality of the project:
   
 - **Tests**: Always write tests to cover your changes. Tests should be placed in the `tests/` directory. If you're fixing a bug, ensure that you write a test to verify the issue has been fixed.
 
+Join the Community
+For discussions, support, and collaboration, join our official GraphFusion Discord server:
+
+[GraphFusion Community Discord](https://discord.gg/HYxqsHYA)
+
 ## License
 
 By contributing to **GraphFusion**, you agree that your contributions will be licensed under the [Apache 2.0 License](LICENSE).
