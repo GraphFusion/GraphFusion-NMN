@@ -154,11 +154,13 @@ GraphFusion is an open-source project, and contributions are welcome! To contrib
 4. Push to your branch (`git push origin feature-name`).
 5. Create a pull request.
 
-### Community
+### Join the Community
+For discussions, support, and collaboration, join our official GraphFusion Discord server:
 
-We encourage collaboration and contributions from the community. If you encounter any issues or have suggestions, feel free to open an issue or start a discussion.
+[GraphFusion Community Discord](https://discord.gg/zK94WvRjZT)
+
 
 ### License
 
-GraphFusion is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+GraphFusion is licensed under the Apache 2.0 License. See the [LICENSE](LICENSE) file for details.
 
