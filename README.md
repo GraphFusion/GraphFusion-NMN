@@ -154,10 +154,11 @@ GraphFusion is an open-source project, and contributions are welcome! To contrib
 4. Push to your branch (`git push origin feature-name`).
 5. Create a pull request.
 
-## Join the Community
+### Join the Community
 For discussions, support, and collaboration, join our official GraphFusion Discord server:
 
-GraphFusion Community Discord
+[GraphFusion Community Discord](https://discord.gg/zK94WvRjZT)
+
 
 ### License
 
