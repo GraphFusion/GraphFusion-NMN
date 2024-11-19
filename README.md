@@ -160,5 +160,5 @@ We encourage collaboration and contributions from the community. If you encounte
 
 ### License
 
-GraphFusion is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+GraphFusion is licensed under the Apache 2.0 License. See the [LICENSE](LICENSE) file for details.
 
