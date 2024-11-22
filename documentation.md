@@ -222,7 +222,7 @@ Below is a simplified representation of the architecture:
           |                                |
 +--------------------+          +-----------------------+
 |  Knowledge Graph   |          |  Query Results w/     |
-|   Augmentation      |          | Confidence Scoring    |
+|   Augmentation     |          | Confidence Scoring    |
 +--------------------+          +-----------------------+
 ```
 
