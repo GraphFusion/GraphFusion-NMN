@@ -5,9 +5,10 @@
 <h3 align="center" weight='300'>Empowering AI with Persistent, Reliable, and Queryable Memory</h3>
 <div align="center">
 
-  [GitHub release](https://github.com/GraphFusion/GraphFusion-NMN/releases)
+  [![GitHub release](https://img.shields.io/badge/Github-Release-blue)](https://github.com/GraphFusion/GraphFusion-NMN/releases)
   [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/GraphFusion/GraphFusion/blob/main/LICENSE)
   [![Join us on Teams](https://img.shields.io/badge/Join-Teams-blue)](https://teams.microsoft.com/)
+  [![Discord Server](https://img.shields.io/badge/Discord-Server-blue)](https://discord.gg/zK94WvRjZT)
 
 </div>
 <h3 align="center">
@@ -26,11 +27,9 @@ pip install graphfusion
 
 GraphFusion supports Python 3.9 and above.
 
----
 
 **GraphFusion AI** is an open-source Python library designed for building and utilizing Neural Memory Networks (NMNs). With GraphFusion, developers can create systems capable of learning from data dynamically while maintaining confidence-scored, queryable memory for applications such as intelligent assistants, healthcare, finance, and education.
 
----
 
 ## Features ✨
 
@@ -41,13 +40,11 @@ GraphFusion supports Python 3.9 and above.
   - **Finance**: Detect fraudulent transactions.
   - **Education**: Provide personalized learning recommendations.
 
----
 
 <p align="center">
   <img src="https://example.com/graphfusion_demo.gif" alt="GraphFusion Demo" width="800">
 </p>
 
----
 
 # Quickstart Guide 🏁
 
@@ -76,7 +73,6 @@ GraphFusion supports Python 3.9 and above.
    pip install -e .
    ```
 
----
 
 ### Examples 🚀
 
@@ -128,7 +124,6 @@ Example Output:
 }
 ```
 
----
 
 ## Architecture 🔧
 
@@ -138,7 +133,6 @@ GraphFusion combines cutting-edge models for persistent AI memory:
 - **KnowledgeGraph**: Creates structured relationships between data points.
 - **NeuralMemoryNetwork**: Context-aware data analysis and recommendations.
 
----
 
 ## Contribute 🌟
 
@@ -159,16 +153,13 @@ We welcome contributors! Follow these steps:
    ```
 5. Create a pull request!
 
----
 
 ## Community 💬
 
-Join discussions and get support on [Teams](https://teams.microsoft.com/). Let’s shape the future of AI together!
+Join discussions and get support on [Discord](https://discord.gg/zK94WvRjZT). Let’s shape the future of AI together!
 
----
 
 ## License 📝
 
 GraphFusion is licensed under the Apache 2.0 License. See [LICENSE](LICENSE) for details.  
 
----
