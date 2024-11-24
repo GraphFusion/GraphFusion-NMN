@@ -7,10 +7,13 @@ with open("README.md", "r", encoding="utf-8") as fh:
 with open("RELEASE_NOTES.md", "r", encoding="utf-8") as fh:
     release_notes = fh.read()
 
+with open("documentation.md", "r", encoding="utf-8") as fh:
+    documentation = fh.read()
+
 setup(
     name="graphfusion",
     version="0.1.0",
-    author="GraphFusion",
+    author="GraphFusion AI Team",
     author_email="Korir@GraphFusion.onmicrosoft.com",
     description="GraphFusion: A Neural Memory Network and Knowledge Graph SDK",
     long_description=f"{long_description}\n\n## Release Notes\n\n{release_notes}",
