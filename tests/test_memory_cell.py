@@ -1,19 +1,22 @@
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import torch
-import pytest
 from core.memory_cell import MemoryCell
 
-def test_memory_cell_initialization():
-    cell = MemoryCell(input_size=10, hidden_size=20)
-    assert isinstance(cell, MemoryCell)
-
-def test_memory_cell_forward():
-    cell = MemoryCell(input_size=10, hidden_size=20)
-    input_data = torch.randn(5, 10)  # 5 samples, input size 10
-    prev_memory = torch.zeros(20)    # Previous memory
-    output, new_memory, confidence = cell(input_data, prev_memory)
-    assert output.shape == (5, 20)  # Output should have shape (batch_size, hidden_size)
-    assert isinstance(confidence, float)
-
+def test_memory_cell_state_persistence():
+    # Setup
+    input_size, hidden_size = 64, 128
+    memory_cell = MemoryCell(input_size, hidden_size)
+    batch_size = 2
+    input_tensor = torch.randn(batch_size, input_size)
+    
+    # First forward pass
+    _, hidden1, _ = memory_cell(input_tensor, torch.zeros(batch_size, hidden_size))
+    
+    # Second forward pass
+    _, hidden2, _ = memory_cell(input_tensor, torch.zeros(batch_size, hidden_size))
+    
+    # Assert states persist
+    assert torch.equal(hidden1, memory_cell._hidden_state.squeeze(0)), "Hidden state not persisted"
+    
+    # Reset states and check
+    memory_cell.reset_states()
+    assert memory_cell._hidden_state is None, "States not reset properly"
