@@ -52,8 +52,8 @@ GraphFusion supports Python 3.9 and above.
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-username/graphfusion.git
-   cd graphfusion
+   git clone https://github.com/GraphFusion/GraphFusion-NMN.git
+   cd GraphFusion-NMN
    ```
 
 2. **Set Up a Virtual Environment**:
@@ -68,7 +68,7 @@ GraphFusion supports Python 3.9 and above.
    pip install -r requirements.txt
    ```
 
-4. **Install in Editable Mode**:
+4. **Install in Editable Mode (Recommended)**:
    ```bash
    pip install -e .
    ```
