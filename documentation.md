@@ -62,8 +62,8 @@ Before you begin, ensure you have the following installed on your system:
 ### **Cloning the Repository**
 Clone the GraphFusion repository from GitHub:
 ```bash
-git clone https://github.com/yourusername/graphfusion.git
-cd graphfusion
+git clone https://github.com/GraphFusion/GraphFusion-NMN.git
+cd GraphFusion-NMN
 ```
 
 ### **Installing Dependencies**
