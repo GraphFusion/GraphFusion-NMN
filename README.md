@@ -20,7 +20,7 @@
 ---
 
 ## Install GraphFusion 🚀
-Install GraphFusion and its dependencies via PyPI:
+Install GraphFusion and its dependencies via PyPI (Command not Ready Yet):
 ```bash
 pip install graphfusion
 ```
